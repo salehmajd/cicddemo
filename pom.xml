@@ -38,4 +38,13 @@
 		</plugins>
 	</build>
 
+	<distributionManagement>
+		<repository>
+			<uniqueVersion>false</uniqueVersion>
+			<id>studi-scratch</id>
+			<name>studi-scratch</name>
+			<url>http://localhost:9001/repository/studi-scratch/</url>
+		</repository>
+	</distributionManagement>
+
 </project>
