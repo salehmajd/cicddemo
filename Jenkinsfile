@@ -6,7 +6,7 @@ pipeline {
     }
 
     tools {
-        jdk 'jenkins-java'
+        jdk 'jenkins-jdk'
     }
 
     stages {
