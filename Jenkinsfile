@@ -3,6 +3,10 @@ pipeline {
 
     environment {
         mavenhome = tool 'jenkins-maven'
+        imageName = "cicddemo"
+        registryCredentials = "nexus"
+        registry = "localhost:8083/"
+        dockerImage = ""
     }
 
     tools {
@@ -22,9 +26,17 @@ pipeline {
             }
         }
 
+        stage('Build image') {
+            steps {
+                script {
+                    dockerImage = docker.build imageName
+                }
+            }
+        }
+
         stage('Deploy') {
             steps {
-                bat "mvn jar:jar deploy:deploy"
+                bat 'echo "deploy image docker"'
             }
         }
     }
