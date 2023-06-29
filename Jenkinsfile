@@ -3,6 +3,10 @@ pipeline {
 
     environment {
         mavenhome = tool 'jenkins-maven'
+        imageName = "cicddemo"
+        registryCredentials = "nexus"
+        registry = ""
+        dockerImage = "http://localhost:9001/repository/nexus-docker/"
     }
 
     tools {
@@ -21,6 +25,14 @@ pipeline {
                 bat "mvn test"
             }
         }
+
+        stage('Build image') {
+                    steps {
+                        script {
+                            dockerImage = docker.build imageName
+                        }
+                    }
+                }
 
         stage('Deploy') {
             steps {
