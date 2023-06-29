@@ -36,7 +36,11 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                bat 'echo "deploy image docker"'
+                script {
+                    docker.withRegistry("http://" + registry, registryCredentials) {
+                        dockerImage.push('latest')
+                    }
+                }
             }
         }
     }
