@@ -4,8 +4,8 @@ pipeline {
     environment {
         mavenhome = tool 'jenkins-maven'
         imageName = "cicddemo"
-        registryCredentials = "nexus"
-        registry = "localhost:8083/"
+        registryCredentials = "dockerhubcred"
+        registry = ""
         dockerImage = ""
     }
 
@@ -14,7 +14,13 @@ pipeline {
     }
 
     stages {
-        stage('Build') {
+        stage('Clone') {
+            steps {
+                git 'https://github.com/salehmajd/cicddemo.git'
+            }
+        }
+
+        stage('Install dependencies') {
             steps {
                 bat "mvn clean -DskipTests install"
             }
@@ -37,11 +43,13 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    docker.withRegistry("http://" + registry, registryCredentials) {
-                        dockerImage.push('latest')
+                    docker.withRegistry(registry, registryCredentials) {
+                        dockerImage.push()
                     }
                 }
             }
         }
+
+
     }
 }
